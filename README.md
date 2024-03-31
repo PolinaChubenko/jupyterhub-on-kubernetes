@@ -1,6 +1,7 @@
 # jupyterhub-on-kubernetes
 
-1. Installing helm https://helm.sh/docs/intro/install/
+## Helm
+Installing helm https://helm.sh/docs/intro/install/
 
 ```
 curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
@@ -10,7 +11,8 @@ sudo apt-get update
 sudo apt-get install helm
 ```
 
-2. Install kubectl binary with curl on Linux https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+## kubectl
+Install kubectl binary with curl on Linux https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
 Download the latest release with the command:
 ```curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"```
@@ -31,19 +33,37 @@ Install kubectl
 Test to ensure the version you installed is up-to-date:
 ```kubectl version --client```
 
+## Minikube or kind
+Установка Minikube для локального подъема kubernetes https://kubernetes.io/ru/docs/tasks/tools/install-minikube/
 
-3. Установка Minikube для локального подъема kubernetes https://kubernetes.io/ru/docs/tasks/tools/install-minikube/
-   
-// DID NOT WORK FOR ME
-
-// Another solution
-Installing kind https://kind.sigs.k8s.io/docs/user/quick-start/
+Установка kind для локального подъема kubernetes: https://kind.sigs.k8s.io/docs/user/quick-start/
 
 Creating a Kubernetes cluster:
-`kind create cluster`
+```kind create cluster```
+or 
+```kind create cluster --name kind-2```
 
+To list your kind clusters: `kind get clusters`
 
-4. Running Jupyterhub in Kubernetes https://citizix.com/how-to-run-jupyterhub-in-kubernetes/
+In order to interact with a specific cluster, you only need to specify the cluster name as a context in kubectl:
+```
+kubectl cluster-info --context kind-kind
+kubectl cluster-info --context kind-kind-2
+```
+
+## Кластеры и kubectl
+
+Если с помощью kubectl вы работаете с несколькими кластерами, убедитесь, что вы выбрали правильный контекст:
+```kubectl config get-contexts
+CURRENT   NAME          CLUSTER       AUTHINFO      NAMESPACE
+          kind-kind     kind-kind     kind-kind     
+*         kind-kind-2   kind-kind-2   kind-kind-2
+```
+Звездочка означает, что мы подключены к кластеру kind-kind-2
+Чтобы переключиться на другой кластер, введите: `kubectl config use-context kind-kind`  
+
+## Jupyterhub in Kubernetes
+Running Jupyterhub in Kubernetes https://citizix.com/how-to-run-jupyterhub-in-kubernetes/
 
 Created dir and empty config.yaml there
 
