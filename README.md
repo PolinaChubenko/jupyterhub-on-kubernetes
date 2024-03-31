@@ -97,3 +97,76 @@ helm upgrade --cleanup-on-fail \
   --version=3.2.1 \
   --values config.yaml
 ```
+Выхлоп будет следующий
+```
+Release "jupyterhub" does not exist. Installing it now.
+NAME: jupyterhub
+LAST DEPLOYED: Sun Feb 18 13:06:08 2024
+NAMESPACE: jupyterhub
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+.      __                          __                  __  __          __
+      / / __  __  ____    __  __  / /_  ___    _____  / / / / __  __  / /_
+ __  / / / / / / / __ \  / / / / / __/ / _ \  / ___/ / /_/ / / / / / / __ \
+/ /_/ / / /_/ / / /_/ / / /_/ / / /_  /  __/ / /    / __  / / /_/ / / /_/ /
+\____/  \__,_/ / .___/  \__, /  \__/  \___/ /_/    /_/ /_/  \__,_/ /_.___/
+              /_/      /____/
+
+       You have successfully installed the official JupyterHub Helm chart!
+
+### Installation info
+
+  - Kubernetes namespace: jupyterhub
+  - Helm release name:    jupyterhub
+  - Helm chart version:   3.2.1
+  - JupyterHub version:   4.0.2
+  - Hub pod packages:     See https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/3.2.1/images/hub/requirements.txt
+
+### Followup links
+
+  - Documentation:  https://z2jh.jupyter.org
+  - Help forum:     https://discourse.jupyter.org
+  - Social chat:    https://gitter.im/jupyterhub/jupyterhub
+  - Issue tracking: https://github.com/jupyterhub/zero-to-jupyterhub-k8s/issues
+
+### Post-installation checklist
+
+  - Verify that created Pods enter a Running state:
+
+      kubectl --namespace=jupyterhub get pod
+
+    If a pod is stuck with a Pending or ContainerCreating status, diagnose with:
+
+      kubectl --namespace=jupyterhub describe pod <name of pod>
+
+    If a pod keeps restarting, diagnose with:
+
+      kubectl --namespace=jupyterhub logs --previous <name of pod>
+
+  - Verify an external IP is provided for the k8s Service proxy-public.
+
+      kubectl --namespace=jupyterhub get service proxy-public
+
+    If the external ip remains <pending>, diagnose with:
+
+      kubectl --namespace=jupyterhub describe service proxy-public
+
+  - Verify web based access:
+
+    You have not configured a k8s Ingress resource so you need to access the k8s
+    Service proxy-public directly.
+
+    If your computer is outside the k8s cluster, you can port-forward traffic to
+    the k8s Service proxy-public with kubectl to access it from your
+    computer.
+
+      kubectl --namespace=jupyterhub port-forward service/proxy-public 8080:http
+
+    Try insecure HTTP access: http://localhost:8080
+```
+Чтобы открыть Jupyterhub на localhost 
+```
+kubectl --namespace=jupyterhub port-forward service/proxy-public 8080:http
+```
