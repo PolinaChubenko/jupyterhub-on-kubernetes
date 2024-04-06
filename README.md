@@ -54,7 +54,8 @@ kubectl cluster-info --context kind-kind-2
 ## Кластеры и kubectl
 
 Если с помощью kubectl вы работаете с несколькими кластерами, убедитесь, что вы выбрали правильный контекст:
-```kubectl config get-contexts
+```
+kubectl config get-contexts
 CURRENT   NAME          CLUSTER       AUTHINFO      NAMESPACE
           kind-kind     kind-kind     kind-kind     
 *         kind-kind-2   kind-kind-2   kind-kind-2
