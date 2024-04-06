@@ -171,3 +171,6 @@ NOTES:
 ```
 kubectl --namespace=jupyterhub port-forward service/proxy-public 8080:http
 ```
+
+## !ngshare!
+https://discourse.jupyter.org/t/ngshare-a-solution-for-using-nbgrader-with-jupyterhub-and-kubernetes/4724
