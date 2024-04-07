@@ -1,0 +1,65 @@
+proxy:
+  secretToken: "57856fad13702360592b9a1a97d1924c406f465390615934957d05422bc7d24a"
+  https:
+    enabled: false
+hub:
+#  config:
+#    Authenticator:
+#      admin_users:
+#        - akhtyamovpavel
+#        - akhtyamovpavel@gmail.com
+#    GitLabOAuthenticator:
+#      client_id: "35189e308948d4f04c3f68864bea0c97fb5d7d7bc49753c00f7c0f77b0c05527"
+#      client_secret: "gloas-cacffd6d7bdb81dae46e9c981838db2bfbd1c0eaf2da8e2daf83aba560902288"
+#      oauth_callback_url: "https://http://192.168.49.2:32586/hub/oauth_callback"
+#      scope:
+#        - read_user
+#        - read_api
+#    JupyterHub:
+#      authenticator_class: gitlab
+#  extraEnv:
+#    GITLAB_HOST: "gitlab.akhcheck.ru"
+  extraConfig:
+    ngshare.py: |
+      c.JupyterHub.services.append({
+        'name': 'ngshare',
+        'url': 'http://ngshare:8080',
+        'api_token': 'demo_token_9wRp0h4BLzAnC88jjBfpH0fa4QV9tZNI',
+        'oauth_no_confirm': True})
+#    setting_enrolled_courses.py: |
+#      from jupyterhub.handlers import BaseHandler
+#
+#      # In the /hub/home "Services" dropdown, show only courses that the user is enrolled in
+#      def get_accessible_services(self, user):
+#        accessible_services = []
+#        if user is None:
+#          return accessible_services
+#
+#        courses = []
+#        for group in user.groups:
+#          if group.name.startswith("formgrade-"):
+#            courses.append(group.name.replace("formgrade-", ""))
+#
+#        for service in self.services.values():
+#          if not service.name in courses:
+#            continue
+#          if not service.url:
+#            continue
+#          if not service.display:
+#            continue
+#          accessible_services.append(service)
+#
+#        return accessible_services
+#
+#      BaseHandler.get_accessible_services = get_accessible_services
+        
+singleuser:
+  image:
+    name: ngshare-singleuser-sample
+    tag: 0.0.1
+  memory:
+    limit: 2G
+    guarantee: 500M
+  networkPolicy:
+    egressAllowRules:
+     privateIPs: true
