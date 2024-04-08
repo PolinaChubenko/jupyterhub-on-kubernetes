@@ -15,27 +15,64 @@ sudo apt-get install helm
 Install kubectl binary with curl on Linux https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
 Download the latest release with the command:
-```curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"```
-
-Validate the binary (optional)
+```
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+```
 Download the kubectl checksum file:
-```curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"```
+```
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+```
 
 Validate the kubectl binary against the checksum file:
-```echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check```
+```
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+```
 
 If valid, the output is:
-```kubectl: OK```
+```
+kubectl: OK
+```
 
 Install kubectl
-```sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl```
+```
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+```
 
 Test to ensure the version you installed is up-to-date:
-```kubectl version --client```
+```
+kubectl version --client
+```
 
-## Minikube or kind
-Установка Minikube для локального подъема kubernetes https://kubernetes.io/ru/docs/tasks/tools/install-minikube/
+## Minikube
+Installing Minikube https://kubernetes.io/ru/docs/tasks/tools/install-minikube/
 
+```
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
+  && chmod +x minikube
+```
+
+Чтобы исполняемый файл Minikube был доступен из любой директории выполните следующие команды:
+```
+sudo mkdir -p /usr/local/bin/
+sudo install minikube /usr/local/bin/
+```
+
+## Кластеры и kubectl
+
+Если с помощью kubectl вы работаете с несколькими кластерами, убедитесь, что вы выбрали правильный контекст:
+```
+kubectl config get-contexts
+CURRENT   NAME          CLUSTER       AUTHINFO      NAMESPACE
+          kind-kind     kind-kind     kind-kind     
+*         kind-kind-2   kind-kind-2   kind-kind-2
+```
+Звездочка означает, что мы подключены к кластеру kind-kind-2
+Чтобы переключиться на другой кластер, введите: `kubectl config use-context kind-kind`  
+
+
+# DEPRECATED
+
+## kind
 Установка kind для локального подъема kubernetes: https://kind.sigs.k8s.io/docs/user/quick-start/
 
 Creating a Kubernetes cluster:
@@ -50,18 +87,6 @@ In order to interact with a specific cluster, you only need to specify the clust
 kubectl cluster-info --context kind-kind
 kubectl cluster-info --context kind-kind-2
 ```
-
-## Кластеры и kubectl
-
-Если с помощью kubectl вы работаете с несколькими кластерами, убедитесь, что вы выбрали правильный контекст:
-```
-kubectl config get-contexts
-CURRENT   NAME          CLUSTER       AUTHINFO      NAMESPACE
-          kind-kind     kind-kind     kind-kind     
-*         kind-kind-2   kind-kind-2   kind-kind-2
-```
-Звездочка означает, что мы подключены к кластеру kind-kind-2
-Чтобы переключиться на другой кластер, введите: `kubectl config use-context kind-kind`  
 
 ## Jupyterhub in Kubernetes
 Running Jupyterhub in Kubernetes https://citizix.com/how-to-run-jupyterhub-in-kubernetes/
